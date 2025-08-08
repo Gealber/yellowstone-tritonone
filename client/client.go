@@ -7,7 +7,6 @@ import (
 	"errors"
 	"io"
 	"log"
-	"net/url"
 	"os"
 	"time"
 
@@ -48,20 +47,8 @@ func New(
 		return nil, errors.New("empty GRPC_TOKEN environment variable")
 	}
 
-	u, err := url.Parse(grpcAddr)
-	if err != nil {
-		log.Fatalf("Invalid GRPC address provided: %v", err)
-	}
-
-	hostname := u.Hostname()
-	if hostname == "" {
-		log.Fatalf("Please provide URL format endpoint e.g. http(s)://<endpoint>:<port>")
-	}
-
-	address := hostname + ":80"
-
 	return &Client{
-		address:    address,
+		address:    grpcAddr,
 		token:      token,
 		processSub: processSub,
 		accounts:   accounts,
