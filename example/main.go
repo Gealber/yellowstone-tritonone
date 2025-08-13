@@ -14,9 +14,9 @@ func main() {
 	}
 
 	clt, err := grpcClt.New(
-		// ORCA usdc-sol pool
-		[]string{"Czfq3xZZDmsdGdUyrNLtRhGc47cXcZtLG4crryfu44zE"},
 		nil,
+		// Kamino Lending
+		[]string{"KLend2g3cP87fffoy8q1mQqGKjrxjC8boSyAYavgmjD"},
 		processSub,
 	)
 	if err != nil {

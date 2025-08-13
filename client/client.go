@@ -5,7 +5,6 @@ import (
 	"crypto/x509"
 	"encoding/json"
 	"errors"
-	"io"
 	"log"
 	"os"
 	"time"
@@ -30,6 +29,8 @@ type Client struct {
 	processSub func(*pb.SubscribeUpdate)
 	accounts   []string
 	owners     []string
+
+	closed bool
 }
 
 func New(
@@ -64,6 +65,10 @@ func (c *Client) Run() error {
 	defer conn.Close()
 
 	return c.grpc_subscribe(conn)
+}
+
+func (c *Client) Close() {
+	c.closed = true
 }
 
 func grpc_connect(address string, plaintext bool) (*grpc.ClientConn, error) {
@@ -131,15 +136,14 @@ func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
 		return err
 	}
 
-	for {
+	for !c.closed {
 		resp, err := stream.Recv()
-		if err == io.EOF {
-			return nil
-		}
 		if err != nil {
 			return err
 		}
 
 		c.processSub(resp)
 	}
+
+	return nil
 }
