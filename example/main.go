@@ -15,8 +15,9 @@ func main() {
 
 	clt, err := grpcClt.New(
 		nil,
-		// Kamino Lending
-		[]string{"KLend2g3cP87fffoy8q1mQqGKjrxjC8boSyAYavgmjD"},
+		nil,
+		// Meteora DLMM
+		[]string{"LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo"},
 		processSub,
 	)
 	if err != nil {
