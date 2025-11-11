@@ -7,6 +7,7 @@ import (
 	"errors"
 	"log"
 	"os"
+	"strconv"
 	"time"
 
 	pb "github.com/Gealber/yellowstone-tritonone/proto"
@@ -24,6 +25,7 @@ var kacp = keepalive.ClientParameters{
 }
 
 type Client struct {
+	plainText  bool
 	address    string
 	token      string
 	processSub func(*pb.SubscribeUpdate)
@@ -50,7 +52,12 @@ func New(
 		return nil, errors.New("empty GRPC_TOKEN environment variable")
 	}
 
+	log.Println("token", token)
+
+	plainText, _ := strconv.ParseBool(os.Getenv("GRPC_PLAINTEXT"))
+
 	return &Client{
+		plainText:  plainText,
 		address:    grpcAddr,
 		token:      token,
 		processSub: processSub,
@@ -61,7 +68,7 @@ func New(
 }
 
 func (c *Client) Run() error {
-	conn, err := grpc_connect(c.address, true)
+	conn, err := grpc_connect(c.address, c.plainText)
 	if err != nil {
 		return err
 	}
