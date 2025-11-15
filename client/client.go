@@ -137,8 +137,7 @@ func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
 	log.Printf("Subscription request: %s", string(subscriptionJson))
 
 	// Set up the subscription request
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+	ctx := context.Background()
 
 	if c.token != "" {
 		md := metadata.New(map[string]string{"x-token": c.token})
@@ -149,14 +148,17 @@ func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
 	if err != nil {
 		return err
 	}
+
 	err = stream.Send(&subscription)
 	if err != nil {
 		return err
 	}
 
-	func() {
-		<-c.done
-		cancel()
+	go func() {
+		t := time.AfterFunc(5*time.Second, func() {
+			stream.CloseSend()
+		})
+		<-t.C
 	}()
 
 	for {
