@@ -155,10 +155,8 @@ func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
 	}
 
 	go func() {
-		t := time.AfterFunc(5*time.Second, func() {
-			stream.CloseSend()
-		})
-		<-t.C
+		<-c.done
+		stream.CloseSend()
 	}()
 
 	for {
