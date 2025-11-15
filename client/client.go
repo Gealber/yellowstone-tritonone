@@ -33,7 +33,7 @@ type Client struct {
 	owners     []string
 	txnsPID    []string
 
-	closed bool
+	done chan struct{}
 }
 
 func New(
@@ -55,6 +55,7 @@ func New(
 	log.Println("token", token)
 
 	plainText, _ := strconv.ParseBool(os.Getenv("GRPC_PLAINTEXT"))
+	done := make(chan struct{})
 
 	return &Client{
 		plainText:  plainText,
@@ -64,6 +65,7 @@ func New(
 		accounts:   accounts,
 		owners:     owners,
 		txnsPID:    txnsPID,
+		done:       done,
 	}, nil
 }
 
@@ -78,7 +80,7 @@ func (c *Client) Run() error {
 }
 
 func (c *Client) Close() {
-	c.closed = true
+	close(c.done)
 }
 
 func grpc_connect(address string, plaintext bool) (*grpc.ClientConn, error) {
@@ -135,7 +137,9 @@ func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
 	log.Printf("Subscription request: %s", string(subscriptionJson))
 
 	// Set up the subscription request
-	ctx := context.Background()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
 	if c.token != "" {
 		md := metadata.New(map[string]string{"x-token": c.token})
 		ctx = metadata.NewOutgoingContext(ctx, md)
@@ -150,7 +154,12 @@ func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
 		return err
 	}
 
-	for !c.closed {
+	func() {
+		<-c.done
+		cancel()
+	}()
+
+	for {
 		resp, err := stream.Recv()
 		if err != nil {
 			return err
@@ -158,6 +167,4 @@ func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
 
 		c.processSub(resp)
 	}
-
-	return nil
 }
