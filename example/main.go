@@ -4,6 +4,7 @@ import (
 	"github.com/Gealber/base58"
 	grpcClt "github.com/Gealber/yellowstone-tritonone/client"
 	"github.com/Gealber/yellowstone-tritonone/proto"
+	"github.com/gagliardetto/solana-go"
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog/log"
 )
@@ -16,8 +17,6 @@ func main() {
 
 	clt, err := grpcClt.New(
 		nil,
-		// nil,
-		// []string{solana.SystemProgramID.String()},
 		// Meteora DLMM
 		[]string{"LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo"},
 		nil,
@@ -45,8 +44,8 @@ func processSub(resp *proto.SubscribeUpdate) {
 	accUpd := resp.GetAccount()
 	if accUpd != nil {
 		acc := accUpd.GetAccount()
-		pk := base58.Encode32([32]byte(acc.Pubkey))
-		log.Info().Str("pk", pk).Msg("subscription response received")
+		pk := solana.PublicKeyFromBytes(acc.Pubkey)
+		log.Info().Uint64("slot", accUpd.GetSlot()).Str("pk", pk.String()).Msg("subscription response received>>>>>>>>>>>>>>>>>>>>>>>>>")
 		return
 	}
 }
