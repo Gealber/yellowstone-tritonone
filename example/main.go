@@ -18,8 +18,10 @@ func main() {
 	clt, err := grpcClt.New(
 		nil,
 		// Meteora DLMM
-		[]string{"LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo"},
+		// []string{"LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo"},
 		nil,
+		nil,
+		true,
 		processSub,
 	)
 	if err != nil {
@@ -33,6 +35,15 @@ func main() {
 }
 
 func processSub(resp *proto.SubscribeUpdate) {
+	blkUpd := resp.GetBlock()
+	if blkUpd != nil {
+		log.Info().
+			Str("blk_hash", blkUpd.Blockhash).
+			Any("block_time", blkUpd.BlockTime).
+			Msg("subscription response received")
+		return
+	}
+
 	upd := resp.GetTransaction()
 	if upd != nil {
 		sig := upd.GetTransaction().Signature

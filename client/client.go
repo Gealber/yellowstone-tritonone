@@ -32,6 +32,7 @@ type Client struct {
 	accounts   []string
 	owners     []string
 	txnsPID    []string
+	blkSub     bool
 
 	done chan struct{}
 }
@@ -40,6 +41,7 @@ func New(
 	accounts []string,
 	owners []string,
 	txnsPID []string,
+	blockSub bool,
 	processSub func(*pb.SubscribeUpdate),
 ) (*Client, error) {
 	grpcAddr := os.Getenv("GRPC_ENDPOINT")
@@ -65,6 +67,7 @@ func New(
 		accounts:   accounts,
 		owners:     owners,
 		txnsPID:    txnsPID,
+		blkSub:     blockSub,
 		done:       done,
 	}, nil
 }
@@ -128,6 +131,13 @@ func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
 		subscription.Transactions["transactions_sub"] = &pb.SubscribeRequestFilterTransactions{
 			AccountInclude: c.txnsPID,
 		}
+	}
+
+	if c.blkSub {
+		if subscription.Blocks == nil {
+			subscription.Blocks = make(map[string]*pb.SubscribeRequestFilterBlocks)
+		}
+		subscription.Blocks["blocks"] = &pb.SubscribeRequestFilterBlocks{}
 	}
 
 	subscriptionJson, err := json.Marshal(&subscription)
