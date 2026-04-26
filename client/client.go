@@ -33,6 +33,7 @@ type Client struct {
 	owners     []string
 	txnsPID    []string
 	blkSub     bool
+	slotSub 	bool
 
 	done chan struct{}
 }
@@ -42,6 +43,7 @@ func New(
 	owners []string,
 	txnsPID []string,
 	blockSub bool,
+	slotSub bool,
 	processSub func(*pb.SubscribeUpdate),
 ) (*Client, error) {
 	grpcAddr := os.Getenv("GRPC_ENDPOINT")
@@ -68,25 +70,26 @@ func New(
 		owners:     owners,
 		txnsPID:    txnsPID,
 		blkSub:     blockSub,
+		slotSub: slotSub,
 		done:       done,
 	}, nil
 }
 
 func (c *Client) Run() error {
-	conn, err := grpc_connect(c.address, c.plainText)
+	conn, err := grpcConnect(c.address, c.plainText)
 	if err != nil {
 		return err
 	}
 	defer conn.Close()
 
-	return c.grpc_subscribe(conn)
+	return c.grpcSubscribe(conn)
 }
 
 func (c *Client) Close() {
 	close(c.done)
 }
 
-func grpc_connect(address string, plaintext bool) (*grpc.ClientConn, error) {
+func grpcConnect(address string, plaintext bool) (*grpc.ClientConn, error) {
 	var opts []grpc.DialOption
 	if plaintext {
 		opts = append(opts, grpc.WithTransportCredentials(insecure.NewCredentials()))
@@ -107,7 +110,7 @@ func grpc_connect(address string, plaintext bool) (*grpc.ClientConn, error) {
 	return conn, nil
 }
 
-func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
+func (c *Client) grpcSubscribe(conn *grpc.ClientConn) error {
 	var err error
 	client := pb.NewGeyserClient(conn)
 
@@ -133,12 +136,20 @@ func (c *Client) grpc_subscribe(conn *grpc.ClientConn) error {
 		}
 	}
 
+	if c.slotSub {
+		if subscription.Slots == nil {
+			subscription.Slots = make(map[string]*pb.SubscribeRequestFilterSlots)
+		}
+		subscription.Slots["slots"] = &pb.SubscribeRequestFilterSlots{}
+	}
+
 	if c.blkSub {
 		if subscription.Blocks == nil {
 			subscription.Blocks = make(map[string]*pb.SubscribeRequestFilterBlocks)
 		}
 		subscription.Blocks["blocks"] = &pb.SubscribeRequestFilterBlocks{}
 	}
+
 
 	subscriptionJson, err := json.Marshal(&subscription)
 	if err != nil {

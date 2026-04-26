@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/Gealber/base58"
 	grpcClt "github.com/Gealber/yellowstone-tritonone/client"
 	"github.com/Gealber/yellowstone-tritonone/proto"
@@ -20,7 +22,9 @@ func main() {
 		// Meteora DLMM
 		// []string{"LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo"},
 		nil,
+		// []string{"Vote111111111111111111111111111111111111111"},
 		nil,
+		false,
 		true,
 		processSub,
 	)
@@ -35,12 +39,23 @@ func main() {
 }
 
 func processSub(resp *proto.SubscribeUpdate) {
+	slotUpd := resp.GetSlot()
+	if slotUpd != nil {
+		log.Info().
+			Uint64("slot", slotUpd.Slot).
+			Int64("ts", time.Now().Unix()).
+			Msg("Slot")
+		return
+	}
+
 	blkUpd := resp.GetBlock()
 	if blkUpd != nil {
 		log.Info().
 			Str("blk_hash", blkUpd.Blockhash).
-			Any("block_time", blkUpd.BlockTime).
-			Msg("subscription response received")
+			Uint64("slot", blkUpd.Slot).
+			Int64("slot_ts", blkUpd.BlockTime.Timestamp).
+			Int64("ts", time.Now().Unix()).
+			Msg("Block")
 		return
 	}
 
