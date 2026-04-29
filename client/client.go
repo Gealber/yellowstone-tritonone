@@ -114,7 +114,9 @@ func (c *Client) grpcSubscribe(conn *grpc.ClientConn) error {
 	var err error
 	client := pb.NewGeyserClient(conn)
 
-	var subscription pb.SubscribeRequest
+	subscription := pb.SubscribeRequest{
+		Commitment: pb.CommitmentLevel_CONFIRMED.Enum(),
+	}
 
 	if (len(c.accounts) + len(c.owners)) > 0 {
 		subscription.Accounts = make(map[string]*pb.SubscribeRequestFilterAccounts)
@@ -140,7 +142,12 @@ func (c *Client) grpcSubscribe(conn *grpc.ClientConn) error {
 		if subscription.Slots == nil {
 			subscription.Slots = make(map[string]*pb.SubscribeRequestFilterSlots)
 		}
-		subscription.Slots["slots"] = &pb.SubscribeRequestFilterSlots{}
+		interUpds := false
+		filteredCommits := true
+		subscription.Slots["slots"] = &pb.SubscribeRequestFilterSlots{
+			FilterByCommitment: &filteredCommits,
+			InterslotUpdates: &interUpds,
+		}
 	}
 
 	if c.blkSub {
