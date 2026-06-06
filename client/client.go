@@ -33,7 +33,8 @@ type Client struct {
 	owners     []string
 	txnsPID    []string
 	blkSub     bool
-	slotSub 	bool
+	slotSub    bool
+	commitment *pb.CommitmentLevel
 
 	done chan struct{}
 }
@@ -45,6 +46,7 @@ func New(
 	blockSub bool,
 	slotSub bool,
 	processSub func(*pb.SubscribeUpdate),
+	commitment *pb.CommitmentLevel,
 ) (*Client, error) {
 	grpcAddr := os.Getenv("GRPC_ENDPOINT")
 	if grpcAddr == "" {
@@ -70,8 +72,9 @@ func New(
 		owners:     owners,
 		txnsPID:    txnsPID,
 		blkSub:     blockSub,
-		slotSub: slotSub,
+		slotSub:    slotSub,
 		done:       done,
+		commitment: commitment,
 	}, nil
 }
 
@@ -115,11 +118,12 @@ func (c *Client) grpcSubscribe(conn *grpc.ClientConn) error {
 	client := pb.NewGeyserClient(conn)
 
 	subscription := pb.SubscribeRequest{
-		Commitment: pb.CommitmentLevel_CONFIRMED.Enum(),
+		Commitment: c.commitment.Enum(),
 	}
 
+	subscription.Accounts = make(map[string]*pb.SubscribeRequestFilterAccounts)
 	if (len(c.accounts) + len(c.owners)) > 0 {
-		subscription.Accounts = make(map[string]*pb.SubscribeRequestFilterAccounts)
+		// subscription.Accounts = make(map[string]*pb.SubscribeRequestFilterAccounts)
 		subscription.Accounts["account_sub"] = &pb.SubscribeRequestFilterAccounts{}
 
 		if len(c.accounts) > 0 {
@@ -142,11 +146,11 @@ func (c *Client) grpcSubscribe(conn *grpc.ClientConn) error {
 		if subscription.Slots == nil {
 			subscription.Slots = make(map[string]*pb.SubscribeRequestFilterSlots)
 		}
-		interUpds := false
+		interUpds := true
 		filteredCommits := true
 		subscription.Slots["slots"] = &pb.SubscribeRequestFilterSlots{
 			FilterByCommitment: &filteredCommits,
-			InterslotUpdates: &interUpds,
+			InterslotUpdates:   &interUpds,
 		}
 	}
 
@@ -156,7 +160,6 @@ func (c *Client) grpcSubscribe(conn *grpc.ClientConn) error {
 		}
 		subscription.Blocks["blocks"] = &pb.SubscribeRequestFilterBlocks{}
 	}
-
 
 	subscriptionJson, err := json.Marshal(&subscription)
 	if err != nil {
