@@ -8,6 +8,7 @@ require (
 	github.com/Gealber/base58 v0.0.4
 	github.com/gagliardetto/solana-go v1.14.0
 	github.com/joho/godotenv v1.5.1
+	github.com/planetscale/vtprotobuf v0.6.1-0.20240319094008-0393e58bdf10
 	github.com/rs/zerolog v1.34.0
 	google.golang.org/grpc v1.67.1
 	google.golang.org/protobuf v1.35.1
