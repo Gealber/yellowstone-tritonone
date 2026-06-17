@@ -7,6 +7,7 @@
 package proto
 
 import (
+	_ "github.com/planetscale/vtprotobuf/vtproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1347,7 +1348,7 @@ var File_solana_storage_proto protoreflect.FileDescriptor
 
 const file_solana_storage_proto_rawDesc = "" +
 	"\n" +
-	"\x14solana-storage.proto\x12\x1dsolana.storage.ConfirmedBlock\"\x89\x04\n" +
+	"\x14solana-storage.proto\x12\x1dsolana.storage.ConfirmedBlock\x1a3github.com/planetscale/vtprotobuf/vtproto/ext.proto\"\x89\x04\n" +
 	"\x0eConfirmedBlock\x12-\n" +
 	"\x12previous_blockhash\x18\x01 \x01(\tR\x11previousBlockhash\x12\x1c\n" +
 	"\tblockhash\x18\x02 \x01(\tR\tblockhash\x12\x1f\n" +
@@ -1361,28 +1362,28 @@ const file_solana_storage_proto_rawDesc = "" +
 	"\x0enum_partitions\x18\b \x01(\v2,.solana.storage.ConfirmedBlock.NumPartitionsR\rnumPartitions\"\xae\x01\n" +
 	"\x14ConfirmedTransaction\x12L\n" +
 	"\vtransaction\x18\x01 \x01(\v2*.solana.storage.ConfirmedBlock.TransactionR\vtransaction\x12H\n" +
-	"\x04meta\x18\x02 \x01(\v24.solana.storage.ConfirmedBlock.TransactionStatusMetaR\x04meta\"o\n" +
+	"\x04meta\x18\x02 \x01(\v24.solana.storage.ConfirmedBlock.TransactionStatusMetaR\x04meta\"u\n" +
 	"\vTransaction\x12\x1e\n" +
 	"\n" +
 	"signatures\x18\x01 \x03(\fR\n" +
 	"signatures\x12@\n" +
-	"\amessage\x18\x02 \x01(\v2&.solana.storage.ConfirmedBlock.MessageR\amessage\"\x81\x03\n" +
+	"\amessage\x18\x02 \x01(\v2&.solana.storage.ConfirmedBlock.MessageR\amessage:\x04\xa8\xa6\x1f\x01\"\x87\x03\n" +
 	"\aMessage\x12D\n" +
 	"\x06header\x18\x01 \x01(\v2,.solana.storage.ConfirmedBlock.MessageHeaderR\x06header\x12!\n" +
 	"\faccount_keys\x18\x02 \x03(\fR\vaccountKeys\x12)\n" +
 	"\x10recent_blockhash\x18\x03 \x01(\fR\x0frecentBlockhash\x12V\n" +
 	"\finstructions\x18\x04 \x03(\v22.solana.storage.ConfirmedBlock.CompiledInstructionR\finstructions\x12\x1c\n" +
 	"\tversioned\x18\x05 \x01(\bR\tversioned\x12l\n" +
-	"\x15address_table_lookups\x18\x06 \x03(\v28.solana.storage.ConfirmedBlock.MessageAddressTableLookupR\x13addressTableLookups\"\xcd\x01\n" +
+	"\x15address_table_lookups\x18\x06 \x03(\v28.solana.storage.ConfirmedBlock.MessageAddressTableLookupR\x13addressTableLookups:\x04\xa8\xa6\x1f\x01\"\xcd\x01\n" +
 	"\rMessageHeader\x126\n" +
 	"\x17num_required_signatures\x18\x01 \x01(\rR\x15numRequiredSignatures\x12?\n" +
 	"\x1cnum_readonly_signed_accounts\x18\x02 \x01(\rR\x19numReadonlySignedAccounts\x12C\n" +
-	"\x1enum_readonly_unsigned_accounts\x18\x03 \x01(\rR\x1bnumReadonlyUnsignedAccounts\"\x92\x01\n" +
+	"\x1enum_readonly_unsigned_accounts\x18\x03 \x01(\rR\x1bnumReadonlyUnsignedAccounts\"\x98\x01\n" +
 	"\x19MessageAddressTableLookup\x12\x1f\n" +
 	"\vaccount_key\x18\x01 \x01(\fR\n" +
 	"accountKey\x12)\n" +
 	"\x10writable_indexes\x18\x02 \x01(\fR\x0fwritableIndexes\x12)\n" +
-	"\x10readonly_indexes\x18\x03 \x01(\fR\x0freadonlyIndexes\"\x8c\b\n" +
+	"\x10readonly_indexes\x18\x03 \x01(\fR\x0freadonlyIndexes:\x04\xa8\xa6\x1f\x01\"\x92\b\n" +
 	"\x15TransactionStatusMeta\x12A\n" +
 	"\x03err\x18\x01 \x01(\v2/.solana.storage.ConfirmedBlock.TransactionErrorR\x03err\x12\x10\n" +
 	"\x03fee\x18\x02 \x01(\x04R\x03fee\x12!\n" +
@@ -1403,41 +1404,41 @@ const file_solana_storage_proto_rawDesc = "" +
 	"\x10return_data_none\x18\x0f \x01(\bR\x0ereturnDataNone\x129\n" +
 	"\x16compute_units_consumed\x18\x10 \x01(\x04H\x00R\x14computeUnitsConsumed\x88\x01\x01\x12\"\n" +
 	"\n" +
-	"cost_units\x18\x11 \x01(\x04H\x01R\tcostUnits\x88\x01\x01B\x19\n" +
+	"cost_units\x18\x11 \x01(\x04H\x01R\tcostUnits\x88\x01\x01:\x04\xa8\xa6\x1f\x01B\x19\n" +
 	"\x17_compute_units_consumedB\r\n" +
-	"\v_cost_units\"$\n" +
+	"\v_cost_units\"*\n" +
 	"\x10TransactionError\x12\x10\n" +
-	"\x03err\x18\x01 \x01(\fR\x03err\"~\n" +
+	"\x03err\x18\x01 \x01(\fR\x03err:\x04\xa8\xa6\x1f\x01\"\x84\x01\n" +
 	"\x11InnerInstructions\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\rR\x05index\x12S\n" +
-	"\finstructions\x18\x02 \x03(\v2/.solana.storage.ConfirmedBlock.InnerInstructionR\finstructions\"\xa5\x01\n" +
+	"\finstructions\x18\x02 \x03(\v2/.solana.storage.ConfirmedBlock.InnerInstructionR\finstructions:\x04\xa8\xa6\x1f\x01\"\xab\x01\n" +
 	"\x10InnerInstruction\x12(\n" +
 	"\x10program_id_index\x18\x01 \x01(\rR\x0eprogramIdIndex\x12\x1a\n" +
 	"\baccounts\x18\x02 \x01(\fR\baccounts\x12\x12\n" +
 	"\x04data\x18\x03 \x01(\fR\x04data\x12&\n" +
-	"\fstack_height\x18\x04 \x01(\rH\x00R\vstackHeight\x88\x01\x01B\x0f\n" +
-	"\r_stack_height\"o\n" +
+	"\fstack_height\x18\x04 \x01(\rH\x00R\vstackHeight\x88\x01\x01:\x04\xa8\xa6\x1f\x01B\x0f\n" +
+	"\r_stack_height\"u\n" +
 	"\x13CompiledInstruction\x12(\n" +
 	"\x10program_id_index\x18\x01 \x01(\rR\x0eprogramIdIndex\x12\x1a\n" +
 	"\baccounts\x18\x02 \x01(\fR\baccounts\x12\x12\n" +
-	"\x04data\x18\x03 \x01(\fR\x04data\"\xd2\x01\n" +
+	"\x04data\x18\x03 \x01(\fR\x04data:\x04\xa8\xa6\x1f\x01\"\xd8\x01\n" +
 	"\fTokenBalance\x12#\n" +
 	"\raccount_index\x18\x01 \x01(\rR\faccountIndex\x12\x12\n" +
 	"\x04mint\x18\x02 \x01(\tR\x04mint\x12T\n" +
 	"\x0fui_token_amount\x18\x03 \x01(\v2,.solana.storage.ConfirmedBlock.UiTokenAmountR\ruiTokenAmount\x12\x14\n" +
 	"\x05owner\x18\x04 \x01(\tR\x05owner\x12\x1d\n" +
 	"\n" +
-	"program_id\x18\x05 \x01(\tR\tprogramId\"\x8a\x01\n" +
+	"program_id\x18\x05 \x01(\tR\tprogramId:\x04\xa8\xa6\x1f\x01\"\x90\x01\n" +
 	"\rUiTokenAmount\x12\x1b\n" +
 	"\tui_amount\x18\x01 \x01(\x01R\buiAmount\x12\x1a\n" +
 	"\bdecimals\x18\x02 \x01(\rR\bdecimals\x12\x16\n" +
 	"\x06amount\x18\x03 \x01(\tR\x06amount\x12(\n" +
-	"\x10ui_amount_string\x18\x04 \x01(\tR\x0euiAmountString\"?\n" +
+	"\x10ui_amount_string\x18\x04 \x01(\tR\x0euiAmountString:\x04\xa8\xa6\x1f\x01\"E\n" +
 	"\n" +
 	"ReturnData\x12\x1d\n" +
 	"\n" +
 	"program_id\x18\x01 \x01(\fR\tprogramId\x12\x12\n" +
-	"\x04data\x18\x02 \x01(\fR\x04data\"\xcb\x01\n" +
+	"\x04data\x18\x02 \x01(\fR\x04data:\x04\xa8\xa6\x1f\x01\"\xd1\x01\n" +
 	"\x06Reward\x12\x16\n" +
 	"\x06pubkey\x18\x01 \x01(\tR\x06pubkey\x12\x1a\n" +
 	"\blamports\x18\x02 \x01(\x03R\blamports\x12!\n" +
@@ -1446,10 +1447,10 @@ const file_solana_storage_proto_rawDesc = "" +
 	"rewardType\x12\x1e\n" +
 	"\n" +
 	"commission\x18\x05 \x01(\tR\n" +
-	"commission\"\x9f\x01\n" +
+	"commission:\x04\xa8\xa6\x1f\x01\"\xa5\x01\n" +
 	"\aRewards\x12?\n" +
 	"\arewards\x18\x01 \x03(\v2%.solana.storage.ConfirmedBlock.RewardR\arewards\x12S\n" +
-	"\x0enum_partitions\x18\x02 \x01(\v2,.solana.storage.ConfirmedBlock.NumPartitionsR\rnumPartitions\"-\n" +
+	"\x0enum_partitions\x18\x02 \x01(\v2,.solana.storage.ConfirmedBlock.NumPartitionsR\rnumPartitions:\x04\xa8\xa6\x1f\x01\"-\n" +
 	"\rUnixTimestamp\x12\x1c\n" +
 	"\ttimestamp\x18\x01 \x01(\x03R\ttimestamp\"0\n" +
 	"\vBlockHeight\x12!\n" +

@@ -11,6 +11,7 @@ import (
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb1 "google.golang.org/protobuf/types/known/timestamppb"
 	io "io"
+	sync "sync"
 )
 
 const (
@@ -2886,6 +2887,250 @@ func (m *IsBlockhashValidResponse) MarshalToSizedBufferVT(dAtA []byte) (int, err
 	return len(dAtA) - i, nil
 }
 
+var vtprotoPool_SubscribeUpdate = sync.Pool{
+	New: func() interface{} {
+		return &SubscribeUpdate{}
+	},
+}
+
+func (m *SubscribeUpdate) ResetVT() {
+	if m != nil {
+		f0 := m.Filters[:0]
+		if oneof, ok := m.UpdateOneof.(*SubscribeUpdate_Account); ok {
+			oneof.Account.ReturnToVTPool()
+		}
+		if oneof, ok := m.UpdateOneof.(*SubscribeUpdate_Transaction); ok {
+			oneof.Transaction.ReturnToVTPool()
+		}
+		if oneof, ok := m.UpdateOneof.(*SubscribeUpdate_Block); ok {
+			oneof.Block.ReturnToVTPool()
+		}
+		if oneof, ok := m.UpdateOneof.(*SubscribeUpdate_BlockMeta); ok {
+			oneof.BlockMeta.ReturnToVTPool()
+		}
+		if oneof, ok := m.UpdateOneof.(*SubscribeUpdate_Entry); ok {
+			oneof.Entry.ReturnToVTPool()
+		}
+		if oneof, ok := m.UpdateOneof.(*SubscribeUpdate_TransactionStatus); ok {
+			oneof.TransactionStatus.ReturnToVTPool()
+		}
+		m.Reset()
+		m.Filters = f0
+	}
+}
+func (m *SubscribeUpdate) ReturnToVTPool() {
+	if m != nil {
+		m.ResetVT()
+		vtprotoPool_SubscribeUpdate.Put(m)
+	}
+}
+func SubscribeUpdateFromVTPool() *SubscribeUpdate {
+	return vtprotoPool_SubscribeUpdate.Get().(*SubscribeUpdate)
+}
+
+var vtprotoPool_SubscribeUpdateAccount = sync.Pool{
+	New: func() interface{} {
+		return &SubscribeUpdateAccount{}
+	},
+}
+
+func (m *SubscribeUpdateAccount) ResetVT() {
+	if m != nil {
+		m.Account.ReturnToVTPool()
+		m.Reset()
+	}
+}
+func (m *SubscribeUpdateAccount) ReturnToVTPool() {
+	if m != nil {
+		m.ResetVT()
+		vtprotoPool_SubscribeUpdateAccount.Put(m)
+	}
+}
+func SubscribeUpdateAccountFromVTPool() *SubscribeUpdateAccount {
+	return vtprotoPool_SubscribeUpdateAccount.Get().(*SubscribeUpdateAccount)
+}
+
+var vtprotoPool_SubscribeUpdateAccountInfo = sync.Pool{
+	New: func() interface{} {
+		return &SubscribeUpdateAccountInfo{}
+	},
+}
+
+func (m *SubscribeUpdateAccountInfo) ResetVT() {
+	if m != nil {
+		f0 := m.Pubkey[:0]
+		f1 := m.Owner[:0]
+		f2 := m.Data[:0]
+		f3 := m.TxnSignature[:0]
+		m.Reset()
+		m.Pubkey = f0
+		m.Owner = f1
+		m.Data = f2
+		m.TxnSignature = f3
+	}
+}
+func (m *SubscribeUpdateAccountInfo) ReturnToVTPool() {
+	if m != nil {
+		m.ResetVT()
+		vtprotoPool_SubscribeUpdateAccountInfo.Put(m)
+	}
+}
+func SubscribeUpdateAccountInfoFromVTPool() *SubscribeUpdateAccountInfo {
+	return vtprotoPool_SubscribeUpdateAccountInfo.Get().(*SubscribeUpdateAccountInfo)
+}
+
+var vtprotoPool_SubscribeUpdateTransaction = sync.Pool{
+	New: func() interface{} {
+		return &SubscribeUpdateTransaction{}
+	},
+}
+
+func (m *SubscribeUpdateTransaction) ResetVT() {
+	if m != nil {
+		m.Transaction.ReturnToVTPool()
+		m.Reset()
+	}
+}
+func (m *SubscribeUpdateTransaction) ReturnToVTPool() {
+	if m != nil {
+		m.ResetVT()
+		vtprotoPool_SubscribeUpdateTransaction.Put(m)
+	}
+}
+func SubscribeUpdateTransactionFromVTPool() *SubscribeUpdateTransaction {
+	return vtprotoPool_SubscribeUpdateTransaction.Get().(*SubscribeUpdateTransaction)
+}
+
+var vtprotoPool_SubscribeUpdateTransactionInfo = sync.Pool{
+	New: func() interface{} {
+		return &SubscribeUpdateTransactionInfo{}
+	},
+}
+
+func (m *SubscribeUpdateTransactionInfo) ResetVT() {
+	if m != nil {
+		f0 := m.Signature[:0]
+		m.Transaction.ReturnToVTPool()
+		m.Meta.ReturnToVTPool()
+		m.Reset()
+		m.Signature = f0
+	}
+}
+func (m *SubscribeUpdateTransactionInfo) ReturnToVTPool() {
+	if m != nil {
+		m.ResetVT()
+		vtprotoPool_SubscribeUpdateTransactionInfo.Put(m)
+	}
+}
+func SubscribeUpdateTransactionInfoFromVTPool() *SubscribeUpdateTransactionInfo {
+	return vtprotoPool_SubscribeUpdateTransactionInfo.Get().(*SubscribeUpdateTransactionInfo)
+}
+
+var vtprotoPool_SubscribeUpdateTransactionStatus = sync.Pool{
+	New: func() interface{} {
+		return &SubscribeUpdateTransactionStatus{}
+	},
+}
+
+func (m *SubscribeUpdateTransactionStatus) ResetVT() {
+	if m != nil {
+		f0 := m.Signature[:0]
+		m.Err.ReturnToVTPool()
+		m.Reset()
+		m.Signature = f0
+	}
+}
+func (m *SubscribeUpdateTransactionStatus) ReturnToVTPool() {
+	if m != nil {
+		m.ResetVT()
+		vtprotoPool_SubscribeUpdateTransactionStatus.Put(m)
+	}
+}
+func SubscribeUpdateTransactionStatusFromVTPool() *SubscribeUpdateTransactionStatus {
+	return vtprotoPool_SubscribeUpdateTransactionStatus.Get().(*SubscribeUpdateTransactionStatus)
+}
+
+var vtprotoPool_SubscribeUpdateBlock = sync.Pool{
+	New: func() interface{} {
+		return &SubscribeUpdateBlock{}
+	},
+}
+
+func (m *SubscribeUpdateBlock) ResetVT() {
+	if m != nil {
+		m.Rewards.ReturnToVTPool()
+		for _, mm := range m.Transactions {
+			mm.ResetVT()
+		}
+		f0 := m.Transactions[:0]
+		for _, mm := range m.Accounts {
+			mm.ResetVT()
+		}
+		f1 := m.Accounts[:0]
+		for _, mm := range m.Entries {
+			mm.ResetVT()
+		}
+		f2 := m.Entries[:0]
+		m.Reset()
+		m.Transactions = f0
+		m.Accounts = f1
+		m.Entries = f2
+	}
+}
+func (m *SubscribeUpdateBlock) ReturnToVTPool() {
+	if m != nil {
+		m.ResetVT()
+		vtprotoPool_SubscribeUpdateBlock.Put(m)
+	}
+}
+func SubscribeUpdateBlockFromVTPool() *SubscribeUpdateBlock {
+	return vtprotoPool_SubscribeUpdateBlock.Get().(*SubscribeUpdateBlock)
+}
+
+var vtprotoPool_SubscribeUpdateBlockMeta = sync.Pool{
+	New: func() interface{} {
+		return &SubscribeUpdateBlockMeta{}
+	},
+}
+
+func (m *SubscribeUpdateBlockMeta) ResetVT() {
+	if m != nil {
+		m.Rewards.ReturnToVTPool()
+		m.Reset()
+	}
+}
+func (m *SubscribeUpdateBlockMeta) ReturnToVTPool() {
+	if m != nil {
+		m.ResetVT()
+		vtprotoPool_SubscribeUpdateBlockMeta.Put(m)
+	}
+}
+func SubscribeUpdateBlockMetaFromVTPool() *SubscribeUpdateBlockMeta {
+	return vtprotoPool_SubscribeUpdateBlockMeta.Get().(*SubscribeUpdateBlockMeta)
+}
+
+var vtprotoPool_SubscribeUpdateEntry = sync.Pool{
+	New: func() interface{} {
+		return &SubscribeUpdateEntry{}
+	},
+}
+
+func (m *SubscribeUpdateEntry) ResetVT() {
+	if m != nil {
+		f0 := m.Hash[:0]
+		m.Reset()
+		m.Hash = f0
+	}
+}
+func (m *SubscribeUpdateEntry) ReturnToVTPool() {
+	if m != nil {
+		m.ResetVT()
+		vtprotoPool_SubscribeUpdateEntry.Put(m)
+	}
+}
+func SubscribeUpdateEntryFromVTPool() *SubscribeUpdateEntry {
+	return vtprotoPool_SubscribeUpdateEntry.Get().(*SubscribeUpdateEntry)
+}
 func (m *SubscribeRequest) SizeVT() (n int) {
 	if m == nil {
 		return 0
@@ -7018,7 +7263,7 @@ func (m *SubscribeUpdate) UnmarshalVT(dAtA []byte) error {
 					return err
 				}
 			} else {
-				v := &SubscribeUpdateAccount{}
+				v := SubscribeUpdateAccountFromVTPool()
 				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 					return err
 				}
@@ -7100,7 +7345,7 @@ func (m *SubscribeUpdate) UnmarshalVT(dAtA []byte) error {
 					return err
 				}
 			} else {
-				v := &SubscribeUpdateTransaction{}
+				v := SubscribeUpdateTransactionFromVTPool()
 				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 					return err
 				}
@@ -7141,7 +7386,7 @@ func (m *SubscribeUpdate) UnmarshalVT(dAtA []byte) error {
 					return err
 				}
 			} else {
-				v := &SubscribeUpdateBlock{}
+				v := SubscribeUpdateBlockFromVTPool()
 				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 					return err
 				}
@@ -7223,7 +7468,7 @@ func (m *SubscribeUpdate) UnmarshalVT(dAtA []byte) error {
 					return err
 				}
 			} else {
-				v := &SubscribeUpdateBlockMeta{}
+				v := SubscribeUpdateBlockMetaFromVTPool()
 				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 					return err
 				}
@@ -7264,7 +7509,7 @@ func (m *SubscribeUpdate) UnmarshalVT(dAtA []byte) error {
 					return err
 				}
 			} else {
-				v := &SubscribeUpdateEntry{}
+				v := SubscribeUpdateEntryFromVTPool()
 				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 					return err
 				}
@@ -7346,7 +7591,7 @@ func (m *SubscribeUpdate) UnmarshalVT(dAtA []byte) error {
 					return err
 				}
 			} else {
-				v := &SubscribeUpdateTransactionStatus{}
+				v := SubscribeUpdateTransactionStatusFromVTPool()
 				if err := v.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 					return err
 				}
@@ -7470,7 +7715,7 @@ func (m *SubscribeUpdateAccount) UnmarshalVT(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Account == nil {
-				m.Account = &SubscribeUpdateAccountInfo{}
+				m.Account = SubscribeUpdateAccountInfoFromVTPool()
 			}
 			if err := m.Account.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -8002,7 +8247,7 @@ func (m *SubscribeUpdateTransaction) UnmarshalVT(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Transaction == nil {
-				m.Transaction = &SubscribeUpdateTransactionInfo{}
+				m.Transaction = SubscribeUpdateTransactionInfoFromVTPool()
 			}
 			if err := m.Transaction.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -8162,7 +8407,7 @@ func (m *SubscribeUpdateTransactionInfo) UnmarshalVT(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Transaction == nil {
-				m.Transaction = &Transaction{}
+				m.Transaction = TransactionFromVTPool()
 			}
 			if err := m.Transaction.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -8198,7 +8443,7 @@ func (m *SubscribeUpdateTransactionInfo) UnmarshalVT(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Meta == nil {
-				m.Meta = &TransactionStatusMeta{}
+				m.Meta = TransactionStatusMetaFromVTPool()
 			}
 			if err := m.Meta.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -8396,7 +8641,7 @@ func (m *SubscribeUpdateTransactionStatus) UnmarshalVT(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Err == nil {
-				m.Err = &TransactionError{}
+				m.Err = TransactionErrorFromVTPool()
 			}
 			if err := m.Err.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -8534,7 +8779,7 @@ func (m *SubscribeUpdateBlock) UnmarshalVT(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Rewards == nil {
-				m.Rewards = &Rewards{}
+				m.Rewards = RewardsFromVTPool()
 			}
 			if err := m.Rewards.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -8641,7 +8886,14 @@ func (m *SubscribeUpdateBlock) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Transactions = append(m.Transactions, &SubscribeUpdateTransactionInfo{})
+			if len(m.Transactions) == cap(m.Transactions) {
+				m.Transactions = append(m.Transactions, &SubscribeUpdateTransactionInfo{})
+			} else {
+				m.Transactions = m.Transactions[:len(m.Transactions)+1]
+				if m.Transactions[len(m.Transactions)-1] == nil {
+					m.Transactions[len(m.Transactions)-1] = &SubscribeUpdateTransactionInfo{}
+				}
+			}
 			if err := m.Transactions[len(m.Transactions)-1].UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -8764,7 +9016,14 @@ func (m *SubscribeUpdateBlock) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Accounts = append(m.Accounts, &SubscribeUpdateAccountInfo{})
+			if len(m.Accounts) == cap(m.Accounts) {
+				m.Accounts = append(m.Accounts, &SubscribeUpdateAccountInfo{})
+			} else {
+				m.Accounts = m.Accounts[:len(m.Accounts)+1]
+				if m.Accounts[len(m.Accounts)-1] == nil {
+					m.Accounts[len(m.Accounts)-1] = &SubscribeUpdateAccountInfo{}
+				}
+			}
 			if err := m.Accounts[len(m.Accounts)-1].UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -8817,7 +9076,14 @@ func (m *SubscribeUpdateBlock) UnmarshalVT(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Entries = append(m.Entries, &SubscribeUpdateEntry{})
+			if len(m.Entries) == cap(m.Entries) {
+				m.Entries = append(m.Entries, &SubscribeUpdateEntry{})
+			} else {
+				m.Entries = m.Entries[:len(m.Entries)+1]
+				if m.Entries[len(m.Entries)-1] == nil {
+					m.Entries[len(m.Entries)-1] = &SubscribeUpdateEntry{}
+				}
+			}
 			if err := m.Entries[len(m.Entries)-1].UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -8954,7 +9220,7 @@ func (m *SubscribeUpdateBlockMeta) UnmarshalVT(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Rewards == nil {
-				m.Rewards = &Rewards{}
+				m.Rewards = RewardsFromVTPool()
 			}
 			if err := m.Rewards.UnmarshalVT(dAtA[iNdEx:postIndex]); err != nil {
 				return err

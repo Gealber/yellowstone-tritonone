@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/timestamp.proto";
 import public "solana-storage.proto";
+import "github.com/planetscale/vtprotobuf/vtproto/ext.proto";
 
 option go_package = "github.com/rpcpool/yellowstone-grpc/examples/golang/proto";
 
@@ -141,6 +142,7 @@ message SubscribeDeshredRequest {
 }
 
 message SubscribeUpdate {
+  option (vtproto.mempool) = true;
   repeated string filters = 1;
   oneof update_oneof {
     SubscribeUpdateAccount account = 2;
@@ -157,12 +159,14 @@ message SubscribeUpdate {
 }
 
 message SubscribeUpdateAccount {
+  option (vtproto.mempool) = true;
   SubscribeUpdateAccountInfo account = 1;
   uint64 slot = 2;
   bool is_startup = 3;
 }
 
 message SubscribeUpdateAccountInfo {
+  option (vtproto.mempool) = true;
   bytes pubkey = 1;
   uint64 lamports = 2;
   bytes owner = 3;
@@ -181,11 +185,13 @@ message SubscribeUpdateSlot {
 }
 
 message SubscribeUpdateTransaction {
+  option (vtproto.mempool) = true;
   SubscribeUpdateTransactionInfo transaction = 1;
   uint64 slot = 2;
 }
 
 message SubscribeUpdateTransactionInfo {
+  option (vtproto.mempool) = true;
   bytes signature = 1;
   bool is_vote = 2;
   solana.storage.ConfirmedBlock.Transaction transaction = 3;
@@ -194,6 +200,7 @@ message SubscribeUpdateTransactionInfo {
 }
 
 message SubscribeUpdateTransactionStatus {
+  option (vtproto.mempool) = true;
   uint64 slot = 1;
   bytes signature = 2;
   bool is_vote = 3;
@@ -202,6 +209,7 @@ message SubscribeUpdateTransactionStatus {
 }
 
 message SubscribeUpdateBlock {
+  option (vtproto.mempool) = true;
   uint64 slot = 1;
   string blockhash = 2;
   solana.storage.ConfirmedBlock.Rewards rewards = 3;
@@ -218,6 +226,7 @@ message SubscribeUpdateBlock {
 }
 
 message SubscribeUpdateBlockMeta {
+  option (vtproto.mempool) = true;
   uint64 slot = 1;
   string blockhash = 2;
   solana.storage.ConfirmedBlock.Rewards rewards = 3;
@@ -230,6 +239,7 @@ message SubscribeUpdateBlockMeta {
 }
 
 message SubscribeUpdateEntry {
+  option (vtproto.mempool) = true;
   uint64 slot = 1;
   uint64 index = 2;
   uint64 num_hashes = 3;

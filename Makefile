@@ -1,6 +1,9 @@
 GO_BIN := $(shell go env GOPATH)/bin
 PATH := $(GO_BIN):$(PATH)
 
+# Include dir that ships vtproto/ext.proto (the (vtproto.mempool) extension).
+VTPROTO_INCLUDE := $(shell go list -m -f '{{.Dir}}' github.com/planetscale/vtprotobuf)/include
+
 .PHONY: protoc protoc-tools
 
 protoc:
@@ -10,13 +13,16 @@ protoc:
 		--go_opt=paths=source_relative \
 		--go-grpc_out=./proto \
 		--go-grpc_opt=paths=source_relative \
-		--proto_path ./proto/ ./proto/*.proto
+		-I./proto \
+		-I$(VTPROTO_INCLUDE) \
+		./proto/*.proto
 	protoc \
 		--go-vtproto_out=./proto \
 		--go-vtproto_opt=paths=source_relative \
 		--go-vtproto_opt=features=marshal+unmarshal+size+pool \
 		-I./proto \
 		-I/usr/include \
+		-I$(VTPROTO_INCLUDE) \
 		./proto/*.proto
 
 protoc-tools:

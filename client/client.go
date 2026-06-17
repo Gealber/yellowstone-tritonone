@@ -107,6 +107,10 @@ func grpcConnect(address string, plaintext bool) (*grpc.ClientConn, error) {
 
 	opts = append(opts, grpc.WithKeepaliveParams(kacp))
 
+	// Force the vtprotobuf codec so Marshal/Unmarshal use the generated
+	// MarshalVT/UnmarshalVT fast paths instead of reflection-based proto.
+	opts = append(opts, grpc.WithDefaultCallOptions(grpc.ForceCodecV2(newVTProtoCodec())))
+
 	log.Println("Starting grpc client, connecting to", address)
 	conn, err := grpc.NewClient(address, opts...)
 	if err != nil {
@@ -201,11 +205,24 @@ func (c *Client) grpcSubscribe(conn *grpc.ClientConn) error {
 	}()
 
 	for {
-		resp, err := stream.Recv()
+		// Pull the message from vtprotobuf's sync.Pool instead of allocating a
+		// fresh one each iteration (as the generated stream.Recv would). RecvMsg
+		// unmarshals into it via our vtproto codec (UnmarshalVT).
+		//
+		// NOTE: ReturnToVTPool below recursively recycles the WHOLE tree —
+		// nested messages (account/transaction/meta/instructions...) and the
+		// backing arrays of byte/slice fields. processSub must therefore not
+		// retain update or ANY value reachable from it (e.g. acc.Data,
+		// signatures) beyond the call; copy anything it needs to keep.
+		update := pb.SubscribeUpdateFromVTPool()
+
+		err := stream.RecvMsg(update)
 		if err != nil {
+			update.ReturnToVTPool()
 			return err
 		}
 
-		c.processSub(resp)
+		c.processSub(update)
+		update.ReturnToVTPool()
 	}
 }

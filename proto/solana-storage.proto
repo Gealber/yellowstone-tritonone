@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "github.com/planetscale/vtprotobuf/vtproto/ext.proto";
+
 package solana.storage.ConfirmedBlock;
 
 option go_package = "github.com/rpcpool/yellowstone-grpc/examples/golang/proto";
@@ -21,11 +23,13 @@ message ConfirmedTransaction {
 }
 
 message Transaction {
+    option (vtproto.mempool) = true;
     repeated bytes signatures = 1;
     Message message = 2;
 }
 
 message Message {
+    option (vtproto.mempool) = true;
     MessageHeader header = 1;
     repeated bytes account_keys = 2;
     bytes recent_blockhash = 3;
@@ -41,12 +45,14 @@ message MessageHeader {
 }
 
 message MessageAddressTableLookup {
+    option (vtproto.mempool) = true;
     bytes account_key = 1;
     bytes writable_indexes = 2;
     bytes readonly_indexes = 3;
 }
 
 message TransactionStatusMeta {
+    option (vtproto.mempool) = true;
     TransactionError err = 1;
     uint64 fee = 2;
     repeated uint64 pre_balances = 3;
@@ -72,15 +78,18 @@ message TransactionStatusMeta {
 }
 
 message TransactionError {
+    option (vtproto.mempool) = true;
     bytes err = 1;
 }
 
 message InnerInstructions {
+    option (vtproto.mempool) = true;
     uint32 index = 1;
     repeated InnerInstruction instructions = 2;
 }
 
 message InnerInstruction {
+    option (vtproto.mempool) = true;
     uint32 program_id_index = 1;
     bytes accounts = 2;
     bytes data = 3;
@@ -92,12 +101,14 @@ message InnerInstruction {
 }
 
 message CompiledInstruction {
+    option (vtproto.mempool) = true;
     uint32 program_id_index = 1;
     bytes accounts = 2;
     bytes data = 3;
 }
 
 message TokenBalance {
+    option (vtproto.mempool) = true;
     uint32 account_index = 1;
     string mint = 2;
     UiTokenAmount ui_token_amount = 3;
@@ -106,6 +117,7 @@ message TokenBalance {
 }
 
 message UiTokenAmount {
+    option (vtproto.mempool) = true;
     double ui_amount = 1;
     uint32 decimals = 2;
     string amount = 3;
@@ -113,6 +125,7 @@ message UiTokenAmount {
 }
 
 message ReturnData {
+    option (vtproto.mempool) = true;
     bytes program_id = 1;
     bytes data = 2;
 }
@@ -126,6 +139,7 @@ enum RewardType {
 }
 
 message Reward {
+    option (vtproto.mempool) = true;
     string pubkey = 1;
     int64 lamports = 2;
     uint64 post_balance = 3;
@@ -134,6 +148,7 @@ message Reward {
 }
 
 message Rewards {
+  option (vtproto.mempool) = true;
   repeated Reward rewards = 1;
   NumPartitions num_partitions = 2;
 }

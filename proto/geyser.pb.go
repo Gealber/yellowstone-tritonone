@@ -7,6 +7,7 @@
 package proto
 
 import (
+	_ "github.com/planetscale/vtprotobuf/vtproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -3103,7 +3104,7 @@ var File_geyser_proto protoreflect.FileDescriptor
 
 const file_geyser_proto_rawDesc = "" +
 	"\n" +
-	"\fgeyser.proto\x12\x06geyser\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14solana-storage.proto\"\xed\v\n" +
+	"\fgeyser.proto\x12\x06geyser\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14solana-storage.proto\x1a3github.com/planetscale/vtprotobuf/vtproto/ext.proto\"\xed\v\n" +
 	"\x10SubscribeRequest\x12B\n" +
 	"\baccounts\x18\x01 \x03(\v2&.geyser.SubscribeRequest.AccountsEntryR\baccounts\x129\n" +
 	"\x05slots\x18\x02 \x03(\v2#.geyser.SubscribeRequest.SlotsEntryR\x05slots\x12N\n" +
@@ -3214,7 +3215,7 @@ const file_geyser_proto_rawDesc = "" +
 	"\x18DeshredTransactionsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12G\n" +
 	"\x05value\x18\x02 \x01(\v21.geyser.SubscribeRequestFilterDeshredTransactionsR\x05value:\x028\x01B\a\n" +
-	"\x05_ping\"\x9d\x05\n" +
+	"\x05_ping\"\xa3\x05\n" +
 	"\x0fSubscribeUpdate\x12\x18\n" +
 	"\afilters\x18\x01 \x03(\tR\afilters\x12:\n" +
 	"\aaccount\x18\x02 \x01(\v2\x1e.geyser.SubscribeUpdateAccountH\x00R\aaccount\x121\n" +
@@ -3229,13 +3230,13 @@ const file_geyser_proto_rawDesc = "" +
 	"block_meta\x18\a \x01(\v2 .geyser.SubscribeUpdateBlockMetaH\x00R\tblockMeta\x124\n" +
 	"\x05entry\x18\b \x01(\v2\x1c.geyser.SubscribeUpdateEntryH\x00R\x05entry\x129\n" +
 	"\n" +
-	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAtB\x0e\n" +
-	"\fupdate_oneof\"\x89\x01\n" +
+	"created_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt:\x04\xa8\xa6\x1f\x01B\x0e\n" +
+	"\fupdate_oneof\"\x8f\x01\n" +
 	"\x16SubscribeUpdateAccount\x12<\n" +
 	"\aaccount\x18\x01 \x01(\v2\".geyser.SubscribeUpdateAccountInfoR\aaccount\x12\x12\n" +
 	"\x04slot\x18\x02 \x01(\x04R\x04slot\x12\x1d\n" +
 	"\n" +
-	"is_startup\x18\x03 \x01(\bR\tisStartup\"\x9a\x02\n" +
+	"is_startup\x18\x03 \x01(\bR\tisStartup:\x04\xa8\xa6\x1f\x01\"\xa0\x02\n" +
 	"\x1aSubscribeUpdateAccountInfo\x12\x16\n" +
 	"\x06pubkey\x18\x01 \x01(\fR\x06pubkey\x12\x1a\n" +
 	"\blamports\x18\x02 \x01(\x04R\blamports\x12\x14\n" +
@@ -3247,7 +3248,7 @@ const file_geyser_proto_rawDesc = "" +
 	"rent_epoch\x18\x05 \x01(\x04R\trentEpoch\x12\x12\n" +
 	"\x04data\x18\x06 \x01(\fR\x04data\x12#\n" +
 	"\rwrite_version\x18\a \x01(\x04R\fwriteVersion\x12(\n" +
-	"\rtxn_signature\x18\b \x01(\fH\x00R\ftxnSignature\x88\x01\x01B\x10\n" +
+	"\rtxn_signature\x18\b \x01(\fH\x00R\ftxnSignature\x88\x01\x01:\x04\xa8\xa6\x1f\x01B\x10\n" +
 	"\x0e_txn_signature\"\xb0\x01\n" +
 	"\x13SubscribeUpdateSlot\x12\x12\n" +
 	"\x04slot\x18\x01 \x01(\x04R\x04slot\x12\x1b\n" +
@@ -3256,22 +3257,22 @@ const file_geyser_proto_rawDesc = "" +
 	"\n" +
 	"dead_error\x18\x04 \x01(\tH\x01R\tdeadError\x88\x01\x01B\t\n" +
 	"\a_parentB\r\n" +
-	"\v_dead_error\"z\n" +
+	"\v_dead_error\"\x80\x01\n" +
 	"\x1aSubscribeUpdateTransaction\x12H\n" +
 	"\vtransaction\x18\x01 \x01(\v2&.geyser.SubscribeUpdateTransactionInfoR\vtransaction\x12\x12\n" +
-	"\x04slot\x18\x02 \x01(\x04R\x04slot\"\x85\x02\n" +
+	"\x04slot\x18\x02 \x01(\x04R\x04slot:\x04\xa8\xa6\x1f\x01\"\x8b\x02\n" +
 	"\x1eSubscribeUpdateTransactionInfo\x12\x1c\n" +
 	"\tsignature\x18\x01 \x01(\fR\tsignature\x12\x17\n" +
 	"\ais_vote\x18\x02 \x01(\bR\x06isVote\x12L\n" +
 	"\vtransaction\x18\x03 \x01(\v2*.solana.storage.ConfirmedBlock.TransactionR\vtransaction\x12H\n" +
 	"\x04meta\x18\x04 \x01(\v24.solana.storage.ConfirmedBlock.TransactionStatusMetaR\x04meta\x12\x14\n" +
-	"\x05index\x18\x05 \x01(\x04R\x05index\"\xc6\x01\n" +
+	"\x05index\x18\x05 \x01(\x04R\x05index:\x04\xa8\xa6\x1f\x01\"\xcc\x01\n" +
 	" SubscribeUpdateTransactionStatus\x12\x12\n" +
 	"\x04slot\x18\x01 \x01(\x04R\x04slot\x12\x1c\n" +
 	"\tsignature\x18\x02 \x01(\fR\tsignature\x12\x17\n" +
 	"\ais_vote\x18\x03 \x01(\bR\x06isVote\x12\x14\n" +
 	"\x05index\x18\x04 \x01(\x04R\x05index\x12A\n" +
-	"\x03err\x18\x05 \x01(\v2/.solana.storage.ConfirmedBlock.TransactionErrorR\x03err\"\xcd\x05\n" +
+	"\x03err\x18\x05 \x01(\v2/.solana.storage.ConfirmedBlock.TransactionErrorR\x03err:\x04\xa8\xa6\x1f\x01\"\xd3\x05\n" +
 	"\x14SubscribeUpdateBlock\x12\x12\n" +
 	"\x04slot\x18\x01 \x01(\x04R\x04slot\x12\x1c\n" +
 	"\tblockhash\x18\x02 \x01(\tR\tblockhash\x12@\n" +
@@ -3288,7 +3289,7 @@ const file_geyser_proto_rawDesc = "" +
 	" \x01(\x04R\x13updatedAccountCount\x12>\n" +
 	"\baccounts\x18\v \x03(\v2\".geyser.SubscribeUpdateAccountInfoR\baccounts\x12#\n" +
 	"\rentries_count\x18\f \x01(\x04R\fentriesCount\x126\n" +
-	"\aentries\x18\r \x03(\v2\x1c.geyser.SubscribeUpdateEntryR\aentries\"\xd9\x03\n" +
+	"\aentries\x18\r \x03(\v2\x1c.geyser.SubscribeUpdateEntryR\aentries:\x04\xa8\xa6\x1f\x01\"\xdf\x03\n" +
 	"\x18SubscribeUpdateBlockMeta\x12\x12\n" +
 	"\x04slot\x18\x01 \x01(\x04R\x04slot\x12\x1c\n" +
 	"\tblockhash\x18\x02 \x01(\tR\tblockhash\x12@\n" +
@@ -3300,7 +3301,7 @@ const file_geyser_proto_rawDesc = "" +
 	"parentSlot\x12)\n" +
 	"\x10parent_blockhash\x18\a \x01(\tR\x0fparentBlockhash\x12<\n" +
 	"\x1aexecuted_transaction_count\x18\b \x01(\x04R\x18executedTransactionCount\x12#\n" +
-	"\rentries_count\x18\t \x01(\x04R\fentriesCount\"\xef\x01\n" +
+	"\rentries_count\x18\t \x01(\x04R\fentriesCount:\x04\xa8\xa6\x1f\x01\"\xf5\x01\n" +
 	"\x14SubscribeUpdateEntry\x12\x12\n" +
 	"\x04slot\x18\x01 \x01(\x04R\x04slot\x12\x14\n" +
 	"\x05index\x18\x02 \x01(\x04R\x05index\x12\x1d\n" +
@@ -3308,7 +3309,7 @@ const file_geyser_proto_rawDesc = "" +
 	"num_hashes\x18\x03 \x01(\x04R\tnumHashes\x12\x12\n" +
 	"\x04hash\x18\x04 \x01(\fR\x04hash\x12<\n" +
 	"\x1aexecuted_transaction_count\x18\x05 \x01(\x04R\x18executedTransactionCount\x12<\n" +
-	"\x1astarting_transaction_index\x18\x06 \x01(\x04R\x18startingTransactionIndex\"\x88\x01\n" +
+	"\x1astarting_transaction_index\x18\x06 \x01(\x04R\x18startingTransactionIndex:\x04\xa8\xa6\x1f\x01\"\x88\x01\n" +
 	"!SubscribeUpdateDeshredTransaction\x12O\n" +
 	"\vtransaction\x18\x01 \x01(\v2-.geyser.SubscribeUpdateDeshredTransactionInfoR\vtransaction\x12\x12\n" +
 	"\x04slot\x18\x02 \x01(\x04R\x04slot\"\xa4\x02\n" +
