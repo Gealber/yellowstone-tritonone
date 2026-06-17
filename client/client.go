@@ -34,6 +34,7 @@ type Client struct {
 	txnsPID    []string
 	blkSub     bool
 	slotSub    bool
+	blkMeta bool
 	commitment *pb.CommitmentLevel
 
 	done chan struct{}
@@ -45,6 +46,7 @@ func New(
 	txnsPID []string,
 	blockSub bool,
 	slotSub bool,
+	blockMeta bool,
 	processSub func(*pb.SubscribeUpdate),
 	commitment *pb.CommitmentLevel,
 ) (*Client, error) {
@@ -73,6 +75,7 @@ func New(
 		txnsPID:    txnsPID,
 		blkSub:     blockSub,
 		slotSub:    slotSub,
+		blkMeta: blockMeta,
 		done:       done,
 		commitment: commitment,
 	}, nil
@@ -159,6 +162,13 @@ func (c *Client) grpcSubscribe(conn *grpc.ClientConn) error {
 			subscription.Blocks = make(map[string]*pb.SubscribeRequestFilterBlocks)
 		}
 		subscription.Blocks["blocks"] = &pb.SubscribeRequestFilterBlocks{}
+	}
+
+	if c.blkMeta {
+		if subscription.BlocksMeta == nil {
+			subscription.BlocksMeta = make(map[string]*pb.SubscribeRequestFilterBlocksMeta)
+		}
+		subscription.BlocksMeta["blocks_meta"] = &pb.SubscribeRequestFilterBlocksMeta{}
 	}
 
 	subscriptionJson, err := json.Marshal(&subscription)
